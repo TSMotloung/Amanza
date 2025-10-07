@@ -3871,7 +3871,7 @@ Shopify.routes.root = "/";</script>
 
 </div>
   
- <!-- Amanzada Perfumes Chat Widget -->
+<!-- Amanzada Perfumes Chat Widget (branded colors) -->
 <script>
   window.ChatWidgetConfig = {
     webhook: {
@@ -3879,17 +3879,17 @@ Shopify.routes.root = "/";</script>
       route: 'general',
     },
     branding: {
-      logo: 'https://amanzadaperfumes.co.za/wp-content/uploads/2024/06/logo.png', // replace with your actual logo URL
+      logo: 'https://amanzadaperfumes.co.za/wp-content/uploads/2024/06/logo.png', // update if needed
       name: 'Amanzada Perfumes',
       welcomeText: 'Get instant answers to your questions!',
       responseTimeText: 'CLICK the button below to start Chatting',
     },
     style: {
-      primaryColor: '#10b981', // Mint green accent
-      secondaryColor: '#059669',
-      position: 'right', // switch to left if you prefer
-      backgroundColor: '#ffffff',
-      fontColor: '#1f2937',
+      primaryColor: '#bfa17a',   /* a muted gold / champagne */
+      secondaryColor: '#8c6e4b', /* darker “gold / bronze” accent */
+      position: 'right',
+      backgroundColor: '#faf5ee', /* warm cream / off-white */
+      fontColor: '#2c2a29',       /* deep charcoal / near black */
     },
     suggestedQuestions: [
       'What are your best-selling perfumes?',
@@ -3900,10 +3900,8 @@ Shopify.routes.root = "/";</script>
   };
 </script>
 
-<!-- Chat Widget Script -->
 <script src="https://cdn.jsdelivr.net/gh/funtastic418/chat-widget@main/chat-widget.js"></script>
 
-<!-- Hide n8n Branding -->
 <style>
   .chat-widget small:contains("powered"),
   .chat-widget small:contains("n8n"),
@@ -3919,7 +3917,6 @@ Shopify.routes.root = "/";</script>
 </style>
 
 <script>
-  // Branding cleaner + fix link behavior
   function hideBrandingOnly() {
     document.querySelectorAll('*').forEach(el => {
       if (el.children.length === 0 && el.textContent) {
@@ -3952,11 +3949,9 @@ Shopify.routes.root = "/";</script>
     });
   }
 
-  // Run cleanup periodically
   setTimeout(() => {
     hideBrandingOnly();
     fixLinksToSameTab();
-
     let checkCount = 0;
     const brandingCheck = setInterval(() => {
       hideBrandingOnly();
@@ -3965,7 +3960,6 @@ Shopify.routes.root = "/";</script>
     }, 2000);
   }, 5000);
 
-  // Watch for DOM changes
   const observer = new MutationObserver(mutations => {
     let shouldCheckLinks = mutations.some(m =>
       m.type === 'childList' && m.addedNodes.length > 0
