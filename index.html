@@ -3871,126 +3871,85 @@ Shopify.routes.root = "/";</script>
 
 </div>
   
-  <!-- Widget Configuration -->
-<script>
-    window.ChatWidgetConfig = {
-      webhook: {
-        url: 'https://n8n.lasmarts.win/webhook/9c33f18a-5341-46de-a656-4f6a62e83391/chat',
-        route: 'general',
-      },
-      branding: {
-        logo: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0lIiAdHx8kKD4sJCYxHR0dLT0tLTUrLjo6HiU/Pj8tNygtLisBCgoKDQwIEg4PGjclHx0tKys3LTc3Kzc3NzcrKysrKysrLSsrKystKysrKysrKysrKysrKysrKysrKysrKysrK//AABEIAA0AHAMBIgACEQEDEQH/xAAXAAEBAQEAAAAAAAAAAAAAAAACBAcD/8QAHhAAAgICAgMAAAAAAAAAAAAAAQIAAxJREUEEBSL/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFhEBAQEAAAAAAAAAAAAAAAAAAEEh/9oADAMBAAIRAxEAPwDDgOSAOzLV9beyFwa8d5iRTovkXKuK22BdBjGwG2t6nKWKVI6IgjsdrPp2ZjtjyYIH/9k=',
-        name: 'Emirati Perfumes',
-        welcomeText: 'Get instant answers to your questions!',
-        responseTimeText: 'CLICK the button below to start Chatting',
-      },
-      style: {
-        primaryColor: '#10b981',
-        secondaryColor: '#059669',
-        position: 'left',
-        backgroundColor: '#ffffff',
-        fontColor: '#1f2937',
-      },
-      suggestedQuestions: [
-        'What are your best-selling perfumes?',
-        'How do I choose the right fragrance?',
-        'What are your shipping options?',
-        'Do you offer samples?'
-      ]
-    };
-  </script>
-  <script src="https://cdn.jsdelivr.net/gh/funtastic418/chat-widget@main/chat-widget.js"></script>
-  <style>
-    .chat-widget small:contains("powered"),
-    .chat-widget small:contains("n8n"),
-    .chat-widget .attribution,
-    .chat-widget .powered-by,
-    .chat-widget a[href*="n8n"] {
-      color: white !important;
-      background-color: white !important;
-      font-size: 0.1px !important;
-      pointer-events: none !important;
-    }
-  </style>
-  <script>
-    function hideBrandingOnly() {
-      const allElements = document.querySelectorAll('*');
-      allElements.forEach(el => {
-        if (el.children.length === 0 && el.textContent) {
-          const text = el.textContent.trim();
-          if (text.toLowerCase() === 'powered by n8n' || 
-              text.toLowerCase() === 'powered by' ||
-              (text.toLowerCase().includes('powered by') && text.length < 30)) {
-            el.style.color = 'white';
-            el.style.backgroundColor = 'white';
-            el.style.fontSize = '0.1px';
-            el.style.pointerEvents = 'none';
-            el.style.userSelect = 'none';
-          }
-        }
-      });
-    }
+ <script>
+  (function () {
+    // Create chatbot button
+    const chatButton = document.createElement("div");
+    chatButton.id = "amanzada-chat-button";
+    chatButton.style.position = "fixed";
+    chatButton.style.bottom = "20px";
+    chatButton.style.right = "20px";
+    chatButton.style.background = "#d4af37";
+    chatButton.style.color = "#fff";
+    chatButton.style.padding = "14px 18px";
+    chatButton.style.borderRadius = "50px";
+    chatButton.style.cursor = "pointer";
+    chatButton.style.boxShadow = "0 4px 10px rgba(0,0,0,0.2)";
+    chatButton.innerText = "Chat with us 💬";
+    document.body.appendChild(chatButton);
 
-    function fixLinksToSameTab() {
-      const chatWidget = document.querySelector('.chat-widget') || document.body;
-      const links = chatWidget.querySelectorAll('a');
-      
-      links.forEach(link => {
-        if (link.getAttribute('target') === '_blank') {
-          link.removeAttribute('target');
-        }
-        
-        link.addEventListener('click', function(e) {
-          if (this.href && (this.href.startsWith('http://') || this.href.startsWith('https://'))) {
-            e.preventDefault();
-            window.location.href = this.href;
-          }
-        }, true);
-      });
-    }
+    // Create chatbot container
+    const chatContainer = document.createElement("div");
+    chatContainer.id = "amanzada-chat-container";
+    chatContainer.style.position = "fixed";
+    chatContainer.style.bottom = "80px";
+    chatContainer.style.right = "20px";
+    chatContainer.style.width = "360px";
+    chatContainer.style.height = "480px";
+    chatContainer.style.border = "none";
+    chatContainer.style.borderRadius = "16px";
+    chatContainer.style.overflow = "hidden";
+    chatContainer.style.display = "none";
+    chatContainer.style.boxShadow = "0 4px 20px rgba(0,0,0,0.3)";
+    chatContainer.style.zIndex = "9999";
+    document.body.appendChild(chatContainer);
 
-    setTimeout(() => {
-      hideBrandingOnly();
-      fixLinksToSameTab();
-      
-      let checkCount = 0;
-      const brandingCheck = setInterval(() => {
-        hideBrandingOnly();
-        fixLinksToSameTab();
-        checkCount++;
-        if (checkCount > 15) {
-          clearInterval(brandingCheck);
-        }
-      }, 2000);
-    }, 5000);
+    // Chat iframe
+    const iframe = document.createElement("iframe");
+    iframe.src = "https://n8n.lasmarts.win/webhook/9c33f18a-5341-46de-a656-4f6a62e83391/chat";
+    iframe.style.width = "100%";
+    iframe.style.height = "100%";
+    iframe.style.border = "none";
+    iframe.style.borderRadius = "16px";
+    chatContainer.appendChild(iframe);
 
-    const observer = new MutationObserver(function(mutations) {
-      let shouldCheckLinks = false;
-      mutations.forEach(function(mutation) {
-        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-          mutation.addedNodes.forEach(node => {
-            if (node.nodeType === 1) {
-              if (node.tagName === 'A' || node.querySelectorAll('a').length > 0) {
-                shouldCheckLinks = true;
-              }
-            }
-          });
-        }
-      });
-      
-      if (shouldCheckLinks) {
-        setTimeout(fixLinksToSameTab, 100);
-      }
+    // Toggle open/close
+    chatButton.addEventListener("click", () => {
+      chatContainer.style.display =
+        chatContainer.style.display === "none" ? "block" : "none";
     });
 
-    setTimeout(() => {
-      const targetNode = document.querySelector('.chat-widget') || document.body;
-      observer.observe(targetNode, {
-        childList: true,
-        subtree: true
-      });
-    }, 6000);
-  </script>
+    // Welcome + suggestions popup
+    const welcomeBox = document.createElement("div");
+    welcomeBox.style.position = "fixed";
+    welcomeBox.style.bottom = "90px";
+    welcomeBox.style.right = "100px";
+    welcomeBox.style.background = "#fff";
+    welcomeBox.style.padding = "16px";
+    welcomeBox.style.borderRadius = "12px";
+    welcomeBox.style.boxShadow = "0 4px 15px rgba(0,0,0,0.1)";
+    welcomeBox.style.maxWidth = "260px";
+    welcomeBox.style.fontFamily = "Arial, sans-serif";
+    welcomeBox.innerHTML = `
+      <strong style="color:#000;">Get instant answers to your questions!</strong><br>
+      <small style="color:#555;">CLICK the button below to start Chatting</small>
+      <div style="margin-top:10px;">
+        <div style="color:#000;font-weight:bold;">Try asking:</div>
+        <ul style="padding-left:15px;margin:5px 0;">
+          <li>What are your best-selling perfumes?</li>
+          <li>How do I choose the right fragrance?</li>
+          <li>What are your shipping options?</li>
+          <li>Do you offer samples?</li>
+        </ul>
+      </div>
+    `;
+    document.body.appendChild(welcomeBox);
+
+    // Hide welcome after 10 seconds
+    setTimeout(() => (welcomeBox.style.display = "none"), 10000);
+  })();
+</script>
+
   
   </body>
 </html>
